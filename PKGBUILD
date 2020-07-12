@@ -17,8 +17,18 @@ optdepends=('qterminal: required for miral demos'
             'qt5-wayland: required for miral demos'
             'xcursor-dmz: opt requirement for miral demos'
             'qtubuntu: opt requirement for miral demos')
-source=("https://github.com/MirServer/mir/archive/v${pkgver}.tar.gz")
-sha256sums=('88848189d562ce9956b0ad62aa0287c8cdddeb7f14f79727ce67dcdaa63ee443')
+source=("https://github.com/MirServer/mir/archive/v${pkgver}.tar.gz"
+        "a701c3c9c1649a6959d4c0b1c7289ee83857633d.patch"
+        "68480bc9654191b615b0e7b80c8a87599a417470.patch"
+        "b8c2da5871a805602f40fc30abe1a6ac619916e2.patch"
+        "0dfb6d76d04031441fb4d4fcb2e986f2874004a0.patch"
+        "de9b340d823f4effff4c8d2b14b6c30e1f1c3097.patch")
+sha256sums=('88848189d562ce9956b0ad62aa0287c8cdddeb7f14f79727ce67dcdaa63ee443'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
 
 BUILD_DIR=build
 
@@ -29,6 +39,18 @@ build() {
   cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_INSTALL_LIBDIR="lib/" ..
   cmake --build ./
 }
+
+prepare() {
+  cd ${pkgname}-${pkgver}
+
+  patch -Np1 -i "${srcdir}/a701c3c9c1649a6959d4c0b1c7289ee83857633d.patch"
+  patch -Np1 -i "${srcdir}/68480bc9654191b615b0e7b80c8a87599a417470.patch"
+  patch -Np1 -i "${srcdir}/b8c2da5871a805602f40fc30abe1a6ac619916e2.patch"
+  patch -Np1 -i "${srcdir}/0dfb6d76d04031441fb4d4fcb2e986f2874004a0.patch"
+  patch -Np1 -i "${srcdir}/de9b340d823f4effff4c8d2b14b6c30e1f1c3097.patch"
+}
+
+
 
 #check() {
 #  cd ${pkgname}-${pkgver}/${BUILD_DIR}
